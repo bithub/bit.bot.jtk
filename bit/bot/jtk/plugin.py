@@ -9,6 +9,7 @@ from bit.bot.base.plugin import BotPlugin
 class BotJTK(BotPlugin):
     implements(IPlugin)
     name = 'bit.bot.jtk'
+    _http = {'root': 'resources'}
     def load_JS(self):
         js = getUtility(IResourceRegistry,'js')
         js.add('jtk/jquery.jtk.js',{'rel':'link'})
