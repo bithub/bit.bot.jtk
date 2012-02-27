@@ -196,6 +196,13 @@
 	     else return false
 	 };
 
+
+	 this.toggle = function(content,class_)
+	 {	     
+	     this.element.toggleClass(class_);
+	     return this;
+	 }
+
 	 this.hide = function(content)
 	 {	     
 	     this.element.toggleClass('hidden', true);
