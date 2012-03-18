@@ -5,7 +5,6 @@
       file="plugin.zcml" 
       />
   <js name="jtk/jquery.jtk.js" />
-  <js name="bit/jquery.bit.js" />
   <http filepath="./resources" />
 </configure>
 
