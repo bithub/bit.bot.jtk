@@ -1,14 +1,15 @@
 from setuptools import setup, find_packages
 import os
 
+
 version = '0.0.6'
+
 
 setup(name='bit.bot.jtk',
       version=version,
       description="Bit Bot Jtk",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
