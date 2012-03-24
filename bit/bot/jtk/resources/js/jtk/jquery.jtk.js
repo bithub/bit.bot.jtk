@@ -109,7 +109,7 @@
                 jtkel.adding();
             }
             loaded = function (_jtk) {
-		console.log('jtk: loaded ', _jtk);
+                console.log('jtk: loaded ', _jtk);
                 _jtk.name = name;
                 $this.kids[name] = _jtk;
                 _jtk.parent = $this;
@@ -174,19 +174,20 @@
             // i think remove this
             if (!this.model) {
                 for (child in this.kids) {
-		    if (this.kids.hasOwnProperty(child)) {
-			this.kids[child].update();
-		    }
+                    if (this.kids.hasOwnProperty(child)) {
+                        this.kids[child].update();
+                    }
                 }
                 return this;
             }
 
             update_all = function () {
+                var child;
                 for (child in $this.kids) {
-		    if ($this.kids.hasOwnProperty(child)) {
-			$this.kids[child].update();
-		    }
-		}
+                    if ($this.kids.hasOwnProperty(child)) {
+                        $this.kids[child].update();
+                    }
+                }
             };
 
             cb = function () {
@@ -195,21 +196,23 @@
                     update_all();
                 }
             };
-	    for (child in this.model) {		
-                if (!this.has_child(child)) {
-                    if (this.model[child].selector) {
-                        container = this.model[child].selector();
-                    } else {
-                        container = this.$;
-                    }
-                    counter += 1;
-                    try {
-                        this.add(child,
-                                 this.model[child].child.apply(this, this.model[child].args),
-                                 container,
-                                 cb);
-                    } catch (err) {
-                        console.log(err);
+            for (child in this.model) {
+                if (this.model.hasOwnProperty(child)) {
+                    if (!this.has_child(child)) {
+                        if (this.model[child].selector) {
+                            container = this.model[child].selector();
+                        } else {
+                            container = this.$;
+                        }
+                        counter += 1;
+                        try {
+                            this.add(child,
+                                     this.model[child].child.apply(this, this.model[child].args),
+                                     container,
+                                     cb);
+                        } catch (err) {
+                            console.log(err);
+                        }
                     }
                 }
             }
@@ -343,7 +346,7 @@
             $this = this;
             //console.log('attaching ' + name + ' to ' + content)
             loaded = function (el) {
-		//console.log('done: attaching ' + name + ' to ' + content)
+                //console.log('done: attaching ' + name + ' to ' + content)
                 $this.element = el;
                 $this.$ = el;
                 if (cb) {
@@ -362,7 +365,7 @@
             update_data = this.update_data;
             params = this.params || {};
             params.name = this.name;
-            this.loadTemplates(		
+            this.loadTemplates(
                 function () {
                     var frame;
                     content.html('');
@@ -780,18 +783,18 @@
     jtk_methods = {
         load: function (cb) {
             var templates, el, element, template_url;
-	    templates = {};
+            templates = {};
             for (el in jtk_elements) {
-		if (jtk_elements.hasOwnProperty(el)) {
+                if (jtk_elements.hasOwnProperty(el)) {
                     element = jtk_elements[el]();
                     template_url = element.getURL();
                     if (!(templates[template_url])) {
-			templates[template_url] = [];
+                        templates[template_url] = [];
                     }
                     if (element.template && templates[template_url].indexOf(element.template) === -1) {
-			templates[template_url].push(element.template);
+                        templates[template_url].push(element.template);
                     }
-		}
+                }
             }
 
             try {
