@@ -37,12 +37,6 @@
                     templates[this.template_url] = [this.template];
                 }
             }
-            if (this.debug && this.debug === true) {
-                for (i = 0; i < templates.length; i += 1) {
-                    template = templates[i];
-                    console.log('loading templates for ' + this.name + ' ' + template + ' ' + templates[template]);
-                }
-            }
             if (templates) {
                 $.jplates(templates, cb, this.debug);
             }
@@ -115,25 +109,12 @@
                 jtkel.adding();
             }
             loaded = function (_jtk) {
-                if (this.debug && this.debug === true) {
-                    if ($this.debug && $this.debug === true) {
-                        console.log('added ' + name + ' to ' + this.name);
-                        console.log(jtkel);
-                        console.log(el);
-                    }
-                }
+		console.log('jtk: loaded ', _jtk);
                 _jtk.name = name;
                 $this.kids[name] = _jtk;
                 _jtk.parent = $this;
                 _jtk.add_bindings();
                 _jtk.added();
-                if (this.debug && this.debug === true) {
-                    if ($this.debug && $this.debug === true) {
-                        console.log('added ' + name + ' to ' + this.name);
-                        console.log(jtkel);
-                        console.log(el);
-                    }
-                }
                 if (cb) {
                     cb(_jtk);
                 }
@@ -189,20 +170,23 @@
             var counter, $this, child, update_all, cb, container, i;
             counter = 0;
             $this = this;
+
             // i think remove this
             if (!this.model) {
-                for (i = 0; i < this.kids.length; i += 1) {
-                    child = this.kids[i];
-                    this.kids[child].update();
+                for (child in this.kids) {
+		    if (this.kids.hasOwnProperty(child)) {
+			this.kids[child].update();
+		    }
                 }
                 return this;
             }
 
             update_all = function () {
-                for (i = 0; i < $this.kids.length; i += 1) {
-                    child = $this.kids[i];
-                    $this.kids[child].update();
-                }
+                for (child in $this.kids) {
+		    if ($this.kids.hasOwnProperty(child)) {
+			$this.kids[child].update();
+		    }
+		}
             };
 
             cb = function () {
@@ -211,19 +195,12 @@
                     update_all();
                 }
             };
-
-            for (i = 0; i < this.model; i += 1) {
-                child = this.model[i];
+	    for (child in this.model) {		
                 if (!this.has_child(child)) {
                     if (this.model[child].selector) {
                         container = this.model[child].selector();
                     } else {
                         container = this.$;
-                    }
-                    if (this.debug) {
-                        console.log('container1');
-                        console.log(container);
-                        this.model[child].selector();
                     }
                     counter += 1;
                     try {
@@ -366,7 +343,7 @@
             $this = this;
             //console.log('attaching ' + name + ' to ' + content)
             loaded = function (el) {
-                //console.log('done: attaching ' + name + ' to ' + content)
+		//console.log('done: attaching ' + name + ' to ' + content)
                 $this.element = el;
                 $this.$ = el;
                 if (cb) {
@@ -385,7 +362,7 @@
             update_data = this.update_data;
             params = this.params || {};
             params.name = this.name;
-            this.loadTemplates(
+            this.loadTemplates(		
                 function () {
                     var frame;
                     content.html('');
@@ -802,18 +779,19 @@
 
     jtk_methods = {
         load: function (cb) {
-            var templates, el, element, template_url, i;
-            templates = {};
-            for (i = 0; i < jtk_elements.length; i += 1) {
-                el = jtk_elements[i];
-                element = jtk_elements[el]();
-                template_url = element.getURL();
-                if (!(templates[template_url])) {
-                    templates[template_url] = [];
-                }
-                if (element.template && templates[template_url].indexOf(element.template) === -1) {
-                    templates[template_url].push(element.template);
-                }
+            var templates, el, element, template_url;
+	    templates = {};
+            for (el in jtk_elements) {
+		if (jtk_elements.hasOwnProperty(el)) {
+                    element = jtk_elements[el]();
+                    template_url = element.getURL();
+                    if (!(templates[template_url])) {
+			templates[template_url] = [];
+                    }
+                    if (element.template && templates[template_url].indexOf(element.template) === -1) {
+			templates[template_url].push(element.template);
+                    }
+		}
             }
 
             try {
