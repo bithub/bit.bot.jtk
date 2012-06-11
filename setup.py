@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import os
 
 
-version = '0.0.10'
+version = '0.0.11'
 
 
 setup(name='bit.bot.jtk',
